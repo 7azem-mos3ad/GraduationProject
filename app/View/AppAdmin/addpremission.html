@@ -1,0 +1,128 @@
+<div class="content-padder content-background">
+    <div class="uk-section-small">
+        <div class="uk-container uk-container-large">
+            <div class="uk-child-width-1-3 uk-text-center" uk-grid>
+                <div>
+                    <form method="POST" action="{{form['AddGroup']}}" autocomplete="off">
+                        <fieldset class="uk-fieldset">
+                            <legend class="uk-legend">
+                                {{lang['add-permission-group']}}
+                            </legend>
+
+                            <div class="uk-margin">
+                                <input class="uk-input uk-form-width-medium" name="groupname" type="text" placeholder="{{lang['page-permission-group']}}" required />
+
+                                <button type="submit" name="addgroup" class="uk-button uk-button-primary uk-form-width-medium">
+                  {{lang['page-permission-group']}}
+                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <form method="POST" action="{{form['AddPermission']}}" autocomplete="off">
+                        <fieldset class="uk-fieldset">
+                            <div class="uk-margin">
+                                <input class="uk-input uk-form-width-medium" name="permissionname" type="text" placeholder="{{lang['page-permission']}}" required />
+                                <button type="submit" name="addpermission" class="uk-button uk-button-primary uk-form-width-medium">
+                  {{lang['page-permission']}}
+                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div>
+                    <form method="POST" action="{{form['SetP2G']}}" autocomplete="off">
+                        <fieldset class="uk-fieldset">
+                            <legend class="uk-legend">{{lang['page-permission-set']}}</legend>
+
+                            <div class="uk-margin">
+                                <div uk-form-custom="target: > * > span:first-child">
+                                    <select name="permission">
+                    <option>{{lang['page-permission']}}</option>
+                    {% for permission in permi['permission'] %}
+                    <option value="{{permission['id']}}">{{permission['name']}}</option>
+                    {% endfor %}
+                  </select>
+                                    <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                    <span></span>
+                    <span uk-icon="icon: chevron-down"></span>
+                  </button>
+                                </div>
+
+                                <div uk-form-custom="target: > * > span:first-child">
+                                    <select name="group">
+                    <option>{{lang['page-permission-group']}}</option>
+                    {% for group in permi['group'] %}
+                    <option value="{{group['id']}}">{{group['name']}}</option>
+                    {% endfor %}
+                    
+                  </select>
+                                    <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                    <span></span>
+                    <span uk-icon="icon: chevron-down"></span>
+                  </button>
+                                </div>
+                            </div>
+
+                            <button type="submit" name="setpermission" class="uk-button uk-button-primary">
+                {{lang['page-permission-set']}}
+              </button>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="uk-child-width-1-2 uk-text-center" uk-grid>
+                    <div>
+                        <div style="width: 100%; height: 20vh; overflow: scroll;" class="uk-overflow-auto">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{lang['permission']}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for permission_name in permi['permission'] %}
+                                    <tr>
+                                        <td>{{permission_name['name']}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 100%; height: 20vh; overflow: scroll;" class="uk-overflow-auto">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{lang['groups']}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for group_name in permi['group'] %}
+                                    <tr>
+                                        <td>{{group_name['name']}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uk-child-width-1-2 uk-text-center" uk-grid>
+                <div>
+                    <div style="width: 100%; height: 40vh; overflow: scroll;" class="uk-overflow-auto">
+                        {% set fir = permi['group_of_permission'][0]['group_id'] %}
+                        <p>{{permi['group_of_permission'][0]['group_name']}}</p>
+                        {% for group_tree in permi['group_of_permission'] %} {% if group_tree['group_id'] == fir %} {{group_tree['permission_name']}} {% else %}
+                        <p>{{group_tree['group_name']}}</p>
+                        {{group_tree['permission_name']}} {% set fir = group_tree['group_id'] %} {% endif %} {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <div style="width: 100%; height: 40vh; overflow: scroll;" class="uk-overflow-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

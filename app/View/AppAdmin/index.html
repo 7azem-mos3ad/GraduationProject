@@ -1,0 +1,215 @@
+<div class="content-padder content-background">
+    <!-- <div class="uk-section-small uk-section-default header">
+        <div class="uk-container uk-container-large">
+            <h1><span class="ion-speedometer"></span> Dashboard</h1>
+            <p>
+                Welcome back, Èrik Campobadal
+            </p>
+            <ul class="uk-breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li><span href="">Dashboard</span></li>
+            </ul>
+        </div>
+    </div> -->
+    <div class="uk-section-small">
+        <div class="uk-container uk-container-large">
+            <div uk-grid class="uk-child-width-1-2@s uk-child-width-1-6@m uk-child-width-1-6@xl">
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <span class="statistics-text">visits</span><br>
+                        <span class="uk-label uk-label-success">
+                                       {{visit['VisitsCount']}} 
+                                    </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <span class="statistics-text">users</span><br>
+                        <span class="uk-label uk-label-success">
+                                    {{visit['UsersCount']}}  
+                                </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <span class="statistics-text">countries</span><br>
+                        <span class="uk-label uk-label-success">
+                                    {{visit['countryCount']}}  
+                                </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <span class="statistics-text">social</span><br>
+                        <span class="uk-label uk-label-success">
+                                    {{visit['socialCount']}} 
+ 
+                                </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <span class="statistics-text">languges</span><br>
+                        <span class="uk-label uk-label-success">
+                                    {{visit['langugeCount']}} 
+ 
+                                </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <span class="statistics-text">cities</span><br>
+                        <span class="uk-label uk-label-success">
+                                    {{visit['citesCount']}} 
+ 
+                                </span>
+                    </div>
+                </div>
+            </div>
+            <div uk-grid class="uk-child-width-1-1@s uk-child-width-1-3@l">
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            Social Traffic
+                        </div>
+                        <canvas id="chart2"></canvas>
+                        <br>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            Countries Traffic
+                        </div>
+                        <canvas id="chart3"></canvas>
+                        <br>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            Languges Traffic
+                        </div>
+                        <canvas id="chart4"></canvas>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-section-small">
+        <!-- <div class="uk-card uk-card-default"> -->
+        <div class="uk-card-header">
+            Visits Log
+        </div>
+        <div style="
+                width: 100%;
+                height: 40vh;
+                overflow: scroll;" class="uk-overflow-auto">
+            <table class="uk-table uk-table-striped">
+                <thead>
+                    <tr>
+                        <!-- <th>#ID</th> -->
+                        <th>IP</th>
+                        <th>ReverseDNS</th>
+                        <th>CurrentURL</th>
+                        <th>RefererURL</th>
+                        <th>Device</th>
+                        <th>OS</th>
+                        <th>Browser</th>
+                        <th>Language</th>
+                        <th>CountryCode</th>
+                        <th>CountryName</th>
+                        <th>RegionCode</th>
+                        <th>RegionName</th>
+                        <th>City</th>
+                        <th>Zipcode</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>isProxy</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for visits in visit['AllData'] %}
+                    <tr>
+                        {% for vu in visits %} {% if vu == 10 %} {# break #} {% endif %}
+                        <td>{{ vu }}</td>
+                        {% else %} No users have been found. {% endfor %}
+                    </tr>
+                    {% else %} No users have been found. {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+{# social Traffic #}
+<script>
+    var char_labels = JSON.parse('{{ visit["social_analysis_key"]|json_encode|raw }}');
+    var char_data = JSON.parse('{{ visit["social_analysis_value"]|json_encode|raw }}');
+    var chart2 = $("#chart2");
+    var myLineChart = new Chart(chart2, {
+        type: 'doughnut',
+        data: {
+            labels: char_labels,
+            datasets: [{
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: char_data
+            }]
+        },
+        options: {
+            title: {
+                display: true
+            }
+        }
+    });
+</script>
+
+
+</script>
+{# social country #}
+<script>
+    var char_labels = JSON.parse('{{ visit["country_analysis_key"]|json_encode|raw }}');
+    var char_data = JSON.parse('{{ visit["country_analysis_value"]|json_encode|raw }}');
+    var chart3 = $("#chart3");
+    var myLineChart = new Chart(chart3, {
+        type: 'doughnut',
+        data: {
+            labels: char_labels,
+            datasets: [{
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: char_data
+            }]
+        },
+        options: {
+            title: {
+                display: true
+            }
+        }
+    });
+</script>
+{# languge Traffic #}
+<script>
+    var char_labels = JSON.parse('{{ visit["languge_analysis_key"]|json_encode|raw }}');
+    var char_data = JSON.parse('{{ visit["languge_analysis_value"]|json_encode|raw }}');
+    var chart4 = $("#chart4");
+    var myLineChart = new Chart(chart4, {
+        type: 'doughnut',
+        data: {
+            labels: char_labels,
+            datasets: [{
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: char_data
+            }]
+        },
+        options: {
+            title: {
+                display: true
+            }
+        }
+    });
+</script>

@@ -1,0 +1,56 @@
+Options -Indexes
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ index.php [QSA,L]
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+ErrorDocument 400 /ServerErrorHandeler.php
+ErrorDocument 401 /ServerErrorHandeler.php
+ErrorDocument 403 /ServerErrorHandeler.php
+ErrorDocument 404 /ServerErrorHandeler.php
+ErrorDocument 500 /ServerErrorHandeler.php
+ErrorDocument 502 /ServerErrorHandeler.php
+ErrorDocument 504 /ServerErrorHandeler.php
+
+<Files ~ "^.*\.([Hh][Tt][Aa])">
+order allow,deny
+deny from all
+satisfy all
+</Files>
+
+<Files ~ "^.*\.([Cc][Ss][Vv])">
+order allow,deny
+deny from all
+satisfy all
+</Files>
+
+<Files ~ "^.*\.([Pp][Hh][Pp])">
+order allow,deny
+deny from all
+satisfy all
+</Files>
+
+<Files ~ "^.*\.([Hh][Tt][Mm])">
+order allow,deny
+deny from all
+satisfy all
+</Files>
+
+
+<Files "index.php">
+Allow from all
+Satisfy Any
+</Files>
+
+<Files "ServerErrorHandeler.php">
+Allow from all
+Satisfy Any
+</Files>
+
+<Files "NI">
+order allow,deny
+deny from all
+satisfy all
+</Files>
